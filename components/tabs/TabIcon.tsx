@@ -13,17 +13,20 @@ export function TabIcon({ icon, color, name, focused }: Props) {
 		console.log('name')
 	}, [])
 	return (
-		<View className='items-center justify-center gap-2'>
+		<View className='items-center justify-center gap-2 mt-3'>
 			<Image
 				source={icon}
 				resizeMode='contain'
 				tintColor={color}
 				className='w-6 h-6'
 			/>
-			<Text className={`${focused ? 'font-psemibold' : 'font-pregular'} text-xs`}>
+			<Text
+				className={`${
+					focused ? 'font-psemibold' : 'font-pregular'
+				} text-xs text-white`}
+			>
 				{name}
 			</Text>
-			<Text>Test</Text>
 		</View>
 	)
 }
