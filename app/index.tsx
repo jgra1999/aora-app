@@ -40,7 +40,7 @@ export default function Index() {
 
 					<CustomButton
 						title='Continue with email'
-						containerStyles='w-full mt-7'
+						containerStyles='mt-7'
 						event={() => router.push('/sign-in')}
 					/>
 				</View>

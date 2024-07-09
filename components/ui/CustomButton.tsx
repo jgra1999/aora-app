@@ -17,7 +17,7 @@ export function CustomButton({
 }: Props) {
 	return (
 		<TouchableOpacity
-			className={`bg-secondary rounded-xl min-h-[62px] justify-center items-center ${containerStyles} ${
+			className={`bg-secondary rounded-xl min-h-[62px] justify-center items-center w-full ${containerStyles} ${
 				isLoading ? 'opacity-50' : ''
 			}`}
 			onPress={event}
