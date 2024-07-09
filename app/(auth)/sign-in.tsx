@@ -1,9 +1,10 @@
-import { View, Text, SafeAreaView, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image } from 'react-native'
 import { images } from '../../constants'
 import { useState } from 'react'
 import FormInput from '@/components/ui/FormInput'
 import { CustomButton } from '@/components/ui/CustomButton'
 import { Link } from 'expo-router'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function SignIn() {
 	const [form, setForm] = useState({
