@@ -1,10 +1,13 @@
-import { View, Text, ScrollView, Image } from 'react-native'
-import { images } from '../../constants'
 import { useState } from 'react'
-import FormInput from '@/components/ui/FormInput'
-import { CustomButton } from '@/components/ui/CustomButton'
-import { Link } from 'expo-router'
+import { View, Text, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { Link, router } from 'expo-router'
+
+import { createUser } from '@/lib/appwrite'
+import { images } from '../../constants'
+
+import { FormInput } from '@/components/ui/FormInput'
+import { CustomButton } from '@/components/ui/CustomButton'
 
 export default function SignIn() {
 	const [form, setForm] = useState({
@@ -13,9 +16,32 @@ export default function SignIn() {
 		password: ''
 	})
 
-	const [isLoading, setIsLoading] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const handleSubmit = () => {}
+	const handleSubmit = async () => {
+		if (!form.email || !form.password || !form.username) {
+			Alert.alert('Error', 'Please fill all the fields')
+			return
+		}
+
+		setIsSubmitting(true)
+
+		try {
+			const result = await createUser(form.email, form.password, form.username)
+
+			//TODO: set it to global state
+
+			router.replace('/home')
+		} catch (e) {
+			if (typeof e === 'string') {
+				Alert.alert('Error', e.toUpperCase()) // works, `e` narrowed to string
+			} else if (e instanceof Error) {
+				Alert.alert('Error', e.message)
+			}
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
 
 	return (
 		<SafeAreaView className='bg-primary h-full'>
@@ -34,11 +60,11 @@ export default function SignIn() {
 					<FormInput
 						label='Username'
 						placeholder='Type an username'
-						value={form.email}
+						value={form.username}
 						event={(e: string) =>
 							setForm({
 								...form,
-								email: e
+								username: e
 							})
 						}
 						otherStyles='mt-7'
@@ -75,7 +101,7 @@ export default function SignIn() {
 						title='Sign Up'
 						event={handleSubmit}
 						containerStyles='mt-7'
-						isLoading={isLoading}
+						isLoading={isSubmitting}
 					/>
 
 					<View className='justify-center pt-5 flex-row gap-2 text-lg font-pregular'>
