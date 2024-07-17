@@ -8,6 +8,7 @@ import { signIn } from '@/lib/appwrite'
 
 import { CustomButton } from '@/components/ui/CustomButton'
 import { FormInput } from '@/components/ui/FormInput'
+import { useGlobalContext } from '@/context/global-context'
 
 export default function SignIn() {
 	const [form, setForm] = useState({
@@ -16,6 +17,7 @@ export default function SignIn() {
 	})
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const { setUser, setIsLoggedIn } = useGlobalContext()
 
 	const handleSubmit = async () => {
 		if (!form.email || !form.password) {
@@ -28,8 +30,10 @@ export default function SignIn() {
 		try {
 			const result = await signIn(form.email, form.password)
 
-			//TODO: set it to global state
+			setUser(result)
+			setIsLoggedIn(true)
 
+			Alert.alert('Success', 'You have been logged in successfully')
 			router.replace('/home')
 		} catch (e) {
 			if (typeof e === 'string') {

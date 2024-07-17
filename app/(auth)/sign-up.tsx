@@ -8,6 +8,7 @@ import { images } from '../../constants'
 
 import { FormInput } from '@/components/ui/FormInput'
 import { CustomButton } from '@/components/ui/CustomButton'
+import { useGlobalContext } from '@/context/global-context'
 
 export default function SignIn() {
 	const [form, setForm] = useState({
@@ -15,6 +16,8 @@ export default function SignIn() {
 		email: '',
 		password: ''
 	})
+
+	const { setUser, setIsLoggedIn } = useGlobalContext()
 
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -29,7 +32,8 @@ export default function SignIn() {
 		try {
 			const result = await createUser(form.email, form.password, form.username)
 
-			//TODO: set it to global state
+			setUser(result)
+			setIsLoggedIn(true)
 
 			router.replace('/home')
 		} catch (e) {
