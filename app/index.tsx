@@ -1,10 +1,18 @@
-import { Image, SafeAreaView, ScrollView, Text, View } from 'react-native'
+import { Image, ScrollView, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { Redirect, router } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
-import { CustomButton } from '@/components/ui/CustomButton'
+
+import { useGlobalContext } from '@/context/global-context'
 import { images } from '../constants'
 
+import { StatusBar } from 'expo-status-bar'
+import { CustomButton } from '@/components/ui/CustomButton'
+
 export default function Index() {
+	const { isLoading, isLoggedIn } = useGlobalContext()
+
+	if (!isLoading && isLoggedIn) return <Redirect href='/home' />
+
 	return (
 		<SafeAreaView className='bg-primary h-full'>
 			<ScrollView contentContainerStyle={{ height: '100%' }}>
@@ -14,6 +22,7 @@ export default function Index() {
 						resizeMode='contain'
 						className='w-[130px] h-[84px]'
 					/>
+
 					<Image
 						source={images.cards}
 						resizeMode='contain'
