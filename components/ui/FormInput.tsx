@@ -11,7 +11,7 @@ interface Props {
 	otherStyles?: string
 }
 
-export default function FormInput({
+export function FormInput({
 	label,
 	value,
 	event,

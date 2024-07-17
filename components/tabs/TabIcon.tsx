@@ -1,5 +1,5 @@
 import { View, Text, Image } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 interface Props {
 	icon: any
@@ -9,9 +9,6 @@ interface Props {
 }
 
 export function TabIcon({ icon, color, name, focused }: Props) {
-	useEffect(() => {
-		console.log('name')
-	}, [])
 	return (
 		<View className='items-center justify-center gap-2 mt-3'>
 			<Image
