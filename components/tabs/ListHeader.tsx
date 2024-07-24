@@ -1,9 +1,9 @@
 import { images } from '@/constants'
 import { View, Text, Image } from 'react-native'
-import SearchInput from '../ui/SearchInput'
-import Trending from './Trending'
+import { SearchInput } from '../ui/SearchInput'
+import { Trending } from './Trending'
 
-export default function ListHeader() {
+export function ListHeader() {
 	return (
 		<View className='my-6 px-4 space-y-6 items-center'>
 			<View className='items-start justify-between flex-row w-full'>
@@ -29,7 +29,7 @@ export default function ListHeader() {
 				</Text>
 			</View>
 
-			<Trending />
+			<Trending posts={[{ id: '1' }, { id: '2' }, { id: '3' }] ?? []} />
 		</View>
 	)
 }

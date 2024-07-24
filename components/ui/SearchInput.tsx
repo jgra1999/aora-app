@@ -2,7 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { icons } from '@/constants'
 
-export default function SearchInput() {
+export function SearchInput() {
 	return (
 		<View className='space-y-2 w-full'>
 			<View className='flex-row items-center border-2 border-black-200 bg-black-100 w-full h-16 px-4 rounded-2xl focus:border-secondary'>
