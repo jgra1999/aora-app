@@ -1,31 +1,38 @@
-import { View, Text, FlatList } from 'react-native'
-import React from 'react'
+import { FlatList, RefreshControl, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import ListHeader from '@/components/tabs/ListHeader'
-
-const DATA = [
-	{
-		id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-		title: 'First Item'
-	},
-	{
-		id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-		title: 'Second Item'
-	},
-	{
-		id: '58694a0f-3da1-471f-bd96-145571e29d72',
-		title: 'Third Item'
-	}
-]
+import { ListHeader } from '@/components/tabs/ListHeader'
+import EmptyState from '@/components/tabs/EmptyState'
+import { useState } from 'react'
+import { getAllPosts } from '@/lib/appwrite'
+import { useAppwrite } from '@/lib/useAppwrite'
+import { CardVideo } from '@/components/tabs/CardVideo'
 
 export default function Home() {
+	const { data: posts, refetch } = useAppwrite(getAllPosts)
+	const [refreshing, setRefreshing] = useState(false)
+
+	const onRefresh = async () => {
+		setRefreshing(true)
+		await refetch()
+		setRefreshing(false)
+	}
+
 	return (
 		<SafeAreaView className='bg-primary h-full'>
 			<FlatList
-				data={DATA}
-				keyExtractor={(item) => item.id}
-				renderItem={({ item }) => <Text>{item.title}</Text>}
+				data={posts}
+				keyExtractor={(item) => item.$id}
+				renderItem={({ item }) => <CardVideo video={item} />}
 				ListHeaderComponent={() => <ListHeader />}
+				ListEmptyComponent={() => (
+					<EmptyState
+						title='No Videos Found'
+						subtitle='Be the first one to upload a video'
+					/>
+				)}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
 			></FlatList>
 		</SafeAreaView>
 	)
