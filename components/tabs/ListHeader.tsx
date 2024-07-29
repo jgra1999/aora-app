@@ -2,8 +2,12 @@ import { images } from '@/constants'
 import { View, Text, Image } from 'react-native'
 import { SearchInput } from '../ui/SearchInput'
 import { Trending } from './Trending'
+import { useAppwrite } from '@/lib/useAppwrite'
+import { getLatestPosts } from '@/lib/appwrite'
 
 export function ListHeader() {
+	const { data: latestPosts } = useAppwrite(getLatestPosts)
+
 	return (
 		<View className='my-6 px-4 space-y-6 items-center'>
 			<View className='items-start justify-between flex-row w-full'>
@@ -29,7 +33,7 @@ export function ListHeader() {
 				</Text>
 			</View>
 
-			<Trending posts={[{ id: '1' }, { id: '2' }, { id: '3' }] ?? []} />
+			<Trending posts={latestPosts ?? []} />
 		</View>
 	)
 }
