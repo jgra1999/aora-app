@@ -1,11 +1,12 @@
-import { icons } from '@/constants'
+import { TouchableOpacity, ImageBackground, Image } from 'react-native'
 import { useState } from 'react'
-import { View, Text, TouchableOpacity, ImageBackground, Image } from 'react-native'
 import * as Animatable from 'react-native-animatable'
+import { Video, ResizeMode } from 'expo-av'
+import { icons } from '@/constants'
 
 interface Props {
-	activeItem: Video
-	item: Video
+	activeItem?: string
+	item: VideoData
 }
 
 const zoomIn = {
@@ -39,7 +40,16 @@ export default function TrendingItem({ activeItem, item }: Props) {
 			duration={500}
 		>
 			{play ? (
-				<Text>TrendingItem</Text>
+				<Video
+					source={{ uri: item.video }}
+					className='w-52 h-72 rounded-[35px] mt-3 bg-white/10'
+					resizeMode={ResizeMode.CONTAIN}
+					useNativeControls
+					shouldPlay
+					onPlaybackStatusUpdate={(status) => {
+						if (status.didJustFinish) setPlay(false)
+					}}
+				/>
 			) : (
 				<TouchableOpacity
 					className='relative justify-center items-center'

@@ -3,7 +3,7 @@ interface VideoCreator {
 	avatar: string
 }
 
-interface Video {
+interface VideoData {
 	$id?: string
 	title: string
 	thumbnail: string
