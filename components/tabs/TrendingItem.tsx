@@ -5,7 +5,7 @@ import { Video, ResizeMode } from 'expo-av'
 import { icons } from '@/constants'
 
 interface Props {
-	activeItem?: string
+	activeItem: VideoData
 	item: VideoData
 }
 
@@ -36,7 +36,7 @@ export default function TrendingItem({ activeItem, item }: Props) {
 	return (
 		<Animatable.View
 			className='mr-5'
-			animation={activeItem === item.$id ? zoomIn : zoomOut}
+			animation={activeItem?.$id === item?.$id ? zoomIn : zoomOut}
 			duration={500}
 		>
 			{play ? (
