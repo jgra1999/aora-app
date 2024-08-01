@@ -124,3 +124,17 @@ export const getAllPosts = async () => {
 		console.log(error)
 	}
 }
+
+export const searchPosts = async (query: string | string[] | undefined) => {
+	try {
+		const posts = await database.listDocuments(
+			config.databaseId,
+			config.videoCollectionId,
+			[Query.search('title', query)]
+		)
+
+		return posts.documents
+	} catch (error) {
+		console.log(error)
+	}
+}
