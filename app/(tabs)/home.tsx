@@ -1,13 +1,19 @@
-import { FlatList, RefreshControl, Alert } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { ListHeader } from '@/components/tabs/ListHeader'
-import EmptyState from '@/components/tabs/EmptyState'
 import { useState } from 'react'
+import { FlatList, RefreshControl } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 import { getAllPosts } from '@/lib/appwrite'
 import { useAppwrite } from '@/lib/useAppwrite'
+
+import { useGlobalContext } from '@/context/global-context'
+
+import { ListHeader } from '@/components/tabs/ListHeader'
+import EmptyState from '@/components/tabs/EmptyState'
 import { CardVideo } from '@/components/tabs/CardVideo'
 
 export default function Home() {
+	const { user, setUser, setIsLoggedIn } = useGlobalContext()
+
 	const { data: posts, refetch } = useAppwrite(getAllPosts)
 	const [refreshing, setRefreshing] = useState(false)
 
@@ -23,7 +29,14 @@ export default function Home() {
 				data={posts}
 				keyExtractor={(item) => item.$id}
 				renderItem={({ item }) => <CardVideo video={item} />}
-				ListHeaderComponent={() => <ListHeader />}
+				ListHeaderComponent={() => (
+					<ListHeader
+						showTrending={true}
+						title='Welcome Back'
+						subtitle={user?.username}
+						query=''
+					/>
+				)}
 				ListEmptyComponent={() => (
 					<EmptyState
 						title='No Videos Found'
