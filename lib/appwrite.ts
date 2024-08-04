@@ -30,6 +30,7 @@ const account = new Account(client)
 const avatar = new Avatars(client)
 const database = new Databases(client)
 
+/* ---- Users ---- */
 export const signIn = async (email: string, password: string) => {
 	try {
 		// Create a session with the user email and password
@@ -39,6 +40,16 @@ export const signIn = async (email: string, password: string) => {
 	} catch (error) {
 		console.log(error)
 		// throw new Error(error)
+	}
+}
+
+export const signOut = async () => {
+	try {
+		const session = await account.deleteSession('current')
+
+		return session
+	} catch (error) {
+		console.log(error)
 	}
 }
 
@@ -98,6 +109,8 @@ export const getCurrentUser = async () => {
 	}
 }
 
+/* ---- Posts ---- */
+
 export const getLatestPosts = async () => {
 	try {
 		const posts = await database.listDocuments(
@@ -125,12 +138,27 @@ export const getAllPosts = async () => {
 	}
 }
 
+/* ---- Search ---- */
 export const searchPosts = async (query: string | string[] | undefined) => {
 	try {
 		const posts = await database.listDocuments(
 			config.databaseId,
 			config.videoCollectionId,
 			[Query.search('title', query)]
+		)
+
+		return posts.documents
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export const searchProfileVideos = async (userId: string) => {
+	try {
+		const posts = await database.listDocuments(
+			config.databaseId,
+			config.videoCollectionId,
+			[Query.equal('creator', userId)]
 		)
 
 		return posts.documents
